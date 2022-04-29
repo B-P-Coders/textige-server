@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+
+  server:
+    build:
+      context: .
+      network: host
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: npm start
+    ports:
+      - ${PORT}:80
+    depends_on: 
+      - database
+    networks:
+      - textige
+
+  database:
+    image: mariadb
+    restart: unless-stopped
+    volumes:
+      - ./database:/var/lib/mysql/
+    environment:
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    networks:
+      - textige
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    environment:
+      - ADMINER_DESIGN=dracula
+      - ADMINER_DEFAULT_SERVER=database
+    ports:
+      - 8080:8080
+    depends_on: 
+      - database
+    networks: 
+      - textige
+
+networks:
+  textige:
+
+# docker-compose up --build

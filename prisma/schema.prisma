@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model message {
+  id                             BigInt    @id @default(autoincrement())
+  content                        String?   @db.VarChar(500)
+  sender_id                      Int       @db.MediumInt
+  receiver_id                    Int       @db.MediumInt
+  send_time                      DateTime? @default(now()) @db.DateTime(0)
+  user_message_receiver_idTouser user      @relation("message_receiver_idTouser", fields: [receiver_id], references: [id], onUpdate: Restrict, map: "message_ibfk_2")
+  user_message_sender_idTouser   user      @relation("message_sender_idTouser", fields: [sender_id], references: [id], onUpdate: Restrict, map: "message_ibfk_1")
+
+  @@index([receiver_id], map: "receiver_id")
+  @@index([sender_id], map: "sender_id")
+}
+
+model user {
+  id                                Int       @id @default(autoincrement()) @db.MediumInt
+  name                              String    @db.VarChar(50)
+  surname                           String    @db.VarChar(50)
+  email                             String    @db.VarChar(50)
+  joined                            DateTime? @default(now()) @db.Date
+  password                          String    @db.VarChar(60)
+  message_message_receiver_idTouser message[] @relation("message_receiver_idTouser")
+  message_message_sender_idTouser   message[] @relation("message_sender_idTouser")
+}
+
+model user_waitlist {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(50)
+  surname  String    @db.VarChar(50)
+  email    String    @db.VarChar(50)
+  joined   DateTime? @default(now()) @db.Date
+  password String    @db.VarChar(60)
+  verified Boolean?  @default(false)
+}
