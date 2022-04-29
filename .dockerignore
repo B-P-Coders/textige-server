@@ -1,0 +1,9 @@
+.env.example
+.env
+.gitignore
+.prettierignore
+.prettierrc
+LICENSE
+README.md
+node_modules
+database
