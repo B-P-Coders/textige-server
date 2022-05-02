@@ -1,6 +1,21 @@
 version: '3.8'
 services:
 
+  server:
+    build:
+      context: .
+      network: host
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: npm start
+    ports:
+      - ${PORT}:80
+    depends_on: 
+      - database
+    networks:
+      - textige
+
   database:
     image: mariadb
     restart: unless-stopped

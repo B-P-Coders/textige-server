@@ -22,21 +22,10 @@ model message {
 
 model user {
   id                                Int       @id @default(autoincrement()) @db.MediumInt
-  name                              String    @db.VarChar(50)
-  surname                           String    @db.VarChar(50)
+  username                          String    @db.VarChar(50)
   email                             String    @db.VarChar(50)
   joined                            DateTime? @default(now()) @db.Date
   password                          String    @db.VarChar(60)
   message_message_receiver_idTouser message[] @relation("message_receiver_idTouser")
   message_message_sender_idTouser   message[] @relation("message_sender_idTouser")
-}
-
-model user_waitlist {
-  id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar(50)
-  surname  String    @db.VarChar(50)
-  email    String    @db.VarChar(50)
-  joined   DateTime? @default(now()) @db.Date
-  password String    @db.VarChar(60)
-  verified Boolean?  @default(false)
 }
