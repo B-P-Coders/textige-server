@@ -105,7 +105,10 @@ dist
 .tern-port
 
 # mysql data volume
-database/
+/database/
+
+# do not ignore anything inside src
+!/src/*
 
 # MacOS
 .DS_Store
