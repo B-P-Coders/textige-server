@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { PrismaClient } from "@prisma/client"
 import * as bcrypt from "bcryptjs"
-
 @Injectable()
 export class DatabaseService extends PrismaClient {
     private saltRounds = 10
@@ -10,7 +9,6 @@ export class DatabaseService extends PrismaClient {
     constructor(private configService: ConfigService) {
         super()
     }
-
     async getUser(username: string, password: string) {
         const user = await this.user.findFirst({
             select: {
@@ -28,7 +26,6 @@ export class DatabaseService extends PrismaClient {
         delete user.password
         return user
     }
-
     async createUser(username: string, email: string, password: string) {
         if (!this.verifyMail(email)) throw new Error("Invalid email")
         await this.user.create({
@@ -39,7 +36,6 @@ export class DatabaseService extends PrismaClient {
             },
         })
     }
-
     private verifyMail(email: string) {
         const re =
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
