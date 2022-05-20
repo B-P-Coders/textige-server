@@ -13,6 +13,7 @@ model message {
   sender_id                      Int       @db.MediumInt
   receiver_id                    Int       @db.MediumInt
   send_time                      DateTime? @default(now()) @db.DateTime(0)
+  read                           Boolean   @default(false)
   user_message_receiver_idTouser user      @relation("message_receiver_idTouser", fields: [receiver_id], references: [id], onUpdate: Restrict, map: "message_ibfk_2")
   user_message_sender_idTouser   user      @relation("message_sender_idTouser", fields: [sender_id], references: [id], onUpdate: Restrict, map: "message_ibfk_1")
 

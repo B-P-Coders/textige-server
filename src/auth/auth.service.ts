@@ -7,14 +7,11 @@ import { ConfigService } from "@nestjs/config"
 import { JwtService } from "@nestjs/jwt"
 import { DatabaseService } from "src/database/database.service"
 
-console.log(DatabaseService)
-
 @Injectable()
 export class AuthService {
     constructor(
         private jwt: JwtService,
         private config: ConfigService,
-        // FIX: Database service is not injected properly
         private database: DatabaseService,
     ) {}
 
@@ -41,8 +38,11 @@ export class AuthService {
     }
 
     private async signToken(userId: number, username: string): Promise<string> {
-        const payload = { userid: userId, username: username }
+        const payload = { sub: userId, username: username }
         const secret = this.config.get("JWT_SECRET")
-        return await this.jwt.sign(payload, { expiresIn: "1d", secret: secret })
+        return await this.jwt.signAsync(payload, {
+            expiresIn: "1d",
+            secret: secret,
+        })
     }
 }
