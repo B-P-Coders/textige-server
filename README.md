@@ -20,6 +20,6 @@ To run this project type:
 
 ```bash
 $ docker-compose up --build
-$ npx prisma migrate dev
+$ npx prisma migrate deploy
 $ yarn start:dev 
 ```
