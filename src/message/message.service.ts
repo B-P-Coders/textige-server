@@ -29,8 +29,16 @@ export class MessageService {
                     send_time: true,
                 },
                 where: {
-                    sender_id: sender,
-                    receiver_id: receiver,
+                    OR: [
+                        {
+                            sender_id: sender,
+                            receiver_id: receiver,
+                        },
+                        {
+                            sender_id: receiver,
+                            receiver_id: sender,
+                        },
+                    ],
                 },
             })
             return messages
