@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common"
 import { JwtGuard } from "src/auth/guard"
 import { MessageService } from "./message.service"
 import { GetUser } from "src/auth/decorator"
+import { SendDto } from "./dto"
 
 @UseGuards(JwtGuard)
 @Controller("message")
@@ -9,12 +10,12 @@ export class MessageController {
     constructor(private messageService: MessageService) {}
 
     @Post("send")
-    public async send(
-        @Body("message") message: string,
-        @Body("receiver") receiver: number,
-        @GetUser("sub") sender: number,
-    ) {
-        return await this.messageService.send(message, +sender, +receiver)
+    public async send(@Body() dto: SendDto, @GetUser("sub") sender: number) {
+        return await this.messageService.send(
+            dto.message,
+            +sender,
+            +dto.receiver,
+        )
     }
 
     @Get("get-all-from/:receiver")
