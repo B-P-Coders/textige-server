@@ -3,7 +3,12 @@ import { JwtGuard } from "src/auth/guard"
 import { MessageService } from "./message.service"
 import { GetUser } from "src/auth/decorator"
 import { SendDto } from "./dto"
+import { ApiHeader } from "@nestjs/swagger"
 
+@ApiHeader({
+    name: "Authorization",
+    description: "JWT token (format is 'Bearer {token}')",
+})
 @UseGuards(JwtGuard)
 @Controller("message")
 export class MessageController {

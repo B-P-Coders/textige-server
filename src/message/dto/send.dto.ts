@@ -1,9 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger"
 
 export class SendDto {
-    @ApiProperty()
+    @ApiProperty({
+        description: "Receiver ID",
+        minimum: 1,
+    })
     receiver: number
 
-    @ApiProperty()
+    @ApiProperty({
+        description: "Message text",
+    })
     message: string
 }
